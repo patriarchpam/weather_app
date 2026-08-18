@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Now</title>
+    <meta
+      name="description"
+      content="Weather dashboard with current conditions, hourly forecast, daily forecast, and unit switching."
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand" aria-label="Weather now brand">
+          <span class="brand__mark" aria-hidden="true"><span></span></span>
+          <h1 class="brand__title">Weather Now</h1>
+        </div>
+
+        <div class="header-controls">
+          <button
+            id="settings-toggle"
+            class="settings-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="settings-panel"
+          >
+            <span class="settings-toggle__icon" aria-hidden="true">◌</span>
+            <span>Units</span>
+            <span class="settings-toggle__caret" aria-hidden="true">⌄</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="main-panel">
+        <section class="content-column">
+          <h2 class="hero-title">How's the sky looking today?</h2>
+
+          <div class="search-bar" role="search">
+            <label class="search-bar__field" for="search-input">
+              <span class="search-bar__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M10.5 3a7.5 7.5 0 0 1 5.915 12.715l4.39 4.39 1.415-1.414-4.39-4.39A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
+                  />
+                </svg>
+              </span>
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Search for a place..."
+                aria-label="Search for a place"
+              />
+            </label>
+            <button
+              id="search-btn"
+              type="button"
+              aria-label="Search weather for location"
+            >
+              Search
+            </button>
+          </div>
+
+          <div
+            id="search-loading"
+            class="search-status hidden"
+            aria-live="polite"
+          >
+            Search in progress
+          </div>
+
+          <section class="weather-card" aria-live="polite">
+            <div class="weather-card__content">
+              <div class="weather-card__primary">
+                <div
+                  id="current-icon"
+                  class="weather-card__icon"
+                  aria-label="Current weather icon"
+                ></div>
+                <div class="weather-card__meta">
+                  <h3 id="current-location" class="weather-card__location">
+                    Berlin, Germany
+                  </h3>
+                  <p id="current-date" class="weather-card__date">
+                    Tuesday, Aug 5, 2025
+                  </p>
+                </div>
+              </div>
+
+              <div class="weather-card__temperature-wrap">
+                <div class="weather-card__temperature">
+                  <span id="current-temp">20</span>
+                  <sup id="current-degree-sign" aria-label="Temperature unit"
+                    >°</sup
+                  >
+                  <span id="current-unit-label" class="weather-card__unit"
+                    >C</span
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="stats-grid" aria-label="Weather details">
+            <aside class="side-panel">
+              <div id="settings-panel" class="settings-panel" aria-label="Unit preferences">
+                <div class="settings-panel__row settings-panel__row--single">
+                  <button type="button" class="settings-panel__toggle" data-unit-mode="metric">
+                    <span>Toggle unit</span>
+                  </button>
+                </div>
+
+                <div class="settings-panel__group">
+                  <div class="settings-panel__group-title">Temperature</div>
+                  <div class="settings-panel__options">
+                    <button class="settings-option" data-type="temp" data-value="metric">Celsius (°C)</button>
+                    <button class="settings-option" data-type="temp" data-value="imperial">Fahrenheit (°F)</button>
+                  </div>
+                </div>
+
+                <div class="settings-panel__group">
+                  <div class="settings-panel__group-title">Wind Speed</div>
+                  <div class="settings-panel__options">
+                    <button class="settings-option" data-type="wind" data-value="kmh">km/h</button>
+                    <button class="settings-option" data-type="wind" data-value="mph">mph</button>
+                  </div>
+                </div>
+
+                <div class="settings-panel__group">
+                  <div class="settings-panel__group-title">Precipitation</div>
+                  <div class="settings-panel__options">
+                    <button class="settings-option" data-type="precip" data-value="mm">Millimeters (mm)</button>
+                    <button class="settings-option" data-type="precip" data-value="in">Inches (in)</button>
+                  </div>
+                </div>
+              </div>
+              <div class="side-panel__stats">
+                <div class="stat">
+                  <div class="stat__label">Feels like</div>
+                  <div id="feels-like" class="stat__value">19°</div>
+                </div>
+                <div class="stat">
+                  <div class="stat__label">Humidity</div>
+                  <div id="humidity" class="stat__value">60%</div>
+                </div>
+                <div class="stat">
+                  <div class="stat__label">Wind</div>
+                  <div id="wind" class="stat__value">10 km/h</div>
+                </div>
+                <div class="stat">
+                  <div class="stat__label">Precipitation</div>
+                  <div id="precip" class="stat__value">0 mm</div>
+                </div>
+              </div>
+
+          <div class="hourly-panel">
+            <div class="hourly-panel__header">
+              <h3>Hourly forecast</h3>
+              <button
+                type="button"
+                class="hourly-panel__select"
+                aria-label="Select day for hourly forecast"
+              >
+                <span>Tuesday</span>
+                <span aria-hidden="true">⌄</span>
+              </button>
+            </div>
+            <div
+              id="hourly-forecast"
+              class="hourly-panel__list"
+              aria-live="polite"
+            ></div>
+          </div>
+          </aside>
+        
+          <section id="daily-forecast" class="daily-forecast" aria-label="7 day forecast"></section>
+      </main>
+
+      <div id="error-state" class="error-state hidden" aria-live="assertive">
+        <div class="error-state__icon" aria-hidden="true">⛔</div>
+        <h2>Something went wrong</h2>
+        <p>
+          We couldn't connect to the server (API error). Please try again in a
+          few moments.
+        </p>
+        <button id="retry-btn" type="button" class="retry-btn">
+          <span aria-hidden="true">↻</span>
+          Retry
+        </button>
+      </div>
+    </div>
+
+    <script src="./assets/js/app.js"></script>
+    <section id="design-gallery" class="design-gallery">
+      <h2>Design Assets (for reference)</h2>
+      <div class="design-gallery__grid">
+        <figure>
+          <img src="./design/desktop-design-metric.jpg" alt="Desktop design (metric)" />
+          <figcaption>Desktop - Metric</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/desktop-design-imperial.jpg" alt="Desktop design (imperial)" />
+          <figcaption>Desktop - Imperial</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/mobile-design-metric.jpg" alt="Mobile design (metric)" />
+          <figcaption>Mobile - Metric</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/mobile-design-imperial.jpg" alt="Mobile design (imperial)" />
+          <figcaption>Mobile - Imperial</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/loading-state.jpg" alt="Loading state" />
+          <figcaption>Loading state</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/search-in-progress-state.jpg" alt="Search in progress state" />
+          <figcaption>Search in progress</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/no-results-state.jpg" alt="No results state" />
+          <figcaption>No results</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/api-error-state.jpg" alt="API error state" />
+          <figcaption>API error</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/dropdown-state.jpg" alt="Dropdown state" />
+          <figcaption>Dropdown state</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/focus-state.jpg" alt="Focus state" />
+          <figcaption>Focus state</figcaption>
+        </figure>
+        <figure>
+          <img src="./design/hover-state.jpg" alt="Hover state" />
+          <figcaption>Hover state</figcaption>
+        </figure>
+      </div>
+    </section>
+  </body>
+</html>
